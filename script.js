@@ -9,6 +9,14 @@ const certificate = $("certificate");
 const certName = $("cert-name");
 const downloadBtn = $("download-btn");
 
+// Native size of the certificate artwork.
+const CERT_W = 1536;
+const CERT_H = 1024;
+
+// The blank rule the name is written on, in artwork pixels.
+const NAME_MAX_WIDTH = 590;
+const NAME_MAX_FONT = 38;
+
 function renderContent() {
   $("t-title").textContent = TEXT.title;
   $("t-subtitle").textContent = TEXT.subtitle;
@@ -19,16 +27,8 @@ function renderContent() {
   $("t-submit").textContent = TEXT.submit;
   $("t-thanks").textContent = TEXT.thanks;
   downloadBtn.textContent = TEXT.download;
-  $("retake-btn").textContent = TEXT.retake;
+  // $("retake-btn").textContent = TEXT.retake;
   $("t-tip").textContent = TEXT.tip;
-
-  $("c-org").textContent = TEXT.certOrg;
-  $("c-title").textContent = TEXT.certTitle;
-  $("c-sub").textContent = TEXT.certSub;
-  $("c-body").textContent = TEXT.certBody;
-  $("c-date-label").textContent = TEXT.dateLabel;
-  $("c-org-label").textContent = TEXT.organiserLabel;
-  $("c-org-name").textContent = TEXT.organiserName;
 
   const list = $("questions");
   QUESTIONS.forEach((item, i) => {
@@ -61,34 +61,22 @@ function renderContent() {
 
 function fitCertificate() {
   const stage = certificate.parentElement;
-  const scale = Math.min(1, stage.clientWidth / 1000);
+  const scale = Math.min(1, (stage.clientWidth - 32) / CERT_W);
   certificate.style.transform = `scale(${scale})`;
-  stage.style.height = `${700 * scale}px`;
+  stage.style.height = `${CERT_H * scale}px`;
 }
 
 // Long Marathi names must shrink rather than wrap — wrapping can split a
-// consonant cluster away from its matra.
+// consonant cluster away from its matra, and there is only one rule to
+// write on. Measured on the inner span: the wrapper is a fixed-width flex
+// box, so its own width says nothing about how wide the text is.
 function fitName() {
-  const max = 860;
-  let size = 52;
+  let size = NAME_MAX_FONT;
   certName.style.fontSize = `${size}px`;
-  while (certName.scrollWidth > max && size > 22) {
-    size -= 2;
+  while (certName.offsetWidth > NAME_MAX_WIDTH && size > 18) {
+    size -= 1;
     certName.style.fontSize = `${size}px`;
   }
-}
-
-function formatDate() {
-  // Marathi month names with Latin digits, e.g. 15 ऑगस्ट 2026.
-  // The mr locale inserts a comma before the year, which reads oddly on a
-  // certificate, so drop it.
-  return new Date()
-    .toLocaleDateString("mr-IN-u-nu-latn", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    })
-    .replace(",", "");
 }
 
 form.addEventListener("submit", async (e) => {
@@ -103,7 +91,6 @@ form.addEventListener("submit", async (e) => {
   nameError.hidden = true;
 
   certName.textContent = name;
-  $("cert-date").textContent = formatDate();
 
   quizView.hidden = true;
   certView.hidden = false;
@@ -116,12 +103,12 @@ form.addEventListener("submit", async (e) => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-$("retake-btn").addEventListener("click", () => {
-  form.reset();
-  certView.hidden = true;
-  quizView.hidden = false;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+// $("retake-btn").addEventListener("click", () => {
+//   form.reset();
+//   certView.hidden = true;
+//   quizView.hidden = false;
+//   window.scrollTo({ top: 0, behavior: "smooth" });
+// });
 
 downloadBtn.addEventListener("click", async () => {
   downloadBtn.disabled = true;
@@ -130,10 +117,9 @@ downloadBtn.addEventListener("click", async () => {
   try {
     await document.fonts.ready;
     const dataUrl = await htmlToImage.toPng(certificate, {
-      pixelRatio: 2,
-      width: 1000,
-      height: 700,
-      backgroundColor: "#fffdf8",
+      pixelRatio: 1,
+      width: CERT_W,
+      height: CERT_H,
       style: { transform: "none", margin: "0" },
     });
     const link = document.createElement("a");

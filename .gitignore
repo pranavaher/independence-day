@@ -1,0 +1,8 @@
+# Local tooling used to prepare the certificate artwork
+.venv/
+
+# Original unedited artwork (2.5 MB). certificate-bg.jpg is the version the
+# site actually uses. Remove this line if you want the source tracked too.
+artwork-source.png
+
+.DS_Store
