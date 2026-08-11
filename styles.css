@@ -1,0 +1,197 @@
+:root {
+  --saffron: #ff9933;
+  --green: #138808;
+  --navy: #000080;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --bg: #f6f7fb;
+  --radius: 14px;
+  --ui-font: "Noto Sans Devanagari", system-ui, -apple-system, sans-serif;
+  --display-font: "Tiro Devanagari Marathi", "Noto Sans Devanagari", serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--ui-font);
+  /* Devanagari matras get clipped at tight line heights. */
+  line-height: 1.7;
+  color: var(--ink);
+  background: radial-gradient(1200px 400px at 50% -200px, #fff3e3, transparent 70%), var(--bg);
+  /* Never let the browser fake-bold a Devanagari face; it smears conjuncts. */
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tricolor-bar {
+  height: 6px;
+  background: linear-gradient(90deg, var(--saffron) 0 33.33%, #fff 33.33% 66.66%, var(--green) 66.66%);
+}
+
+.wrap { max-width: 800px; margin: 0 auto; padding: 32px 18px 64px; }
+
+.hero { text-align: center; margin-bottom: 28px; }
+.hero h1 {
+  font-family: var(--display-font);
+  font-size: clamp(1.5rem, 5vw, 2.3rem);
+  line-height: 1.5;
+  margin: 0 0 8px;
+  color: var(--navy);
+}
+.hero p { margin: 0; color: var(--muted); }
+
+.card {
+  background: #fff;
+  border: 1px solid #e8eaf0;
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(20, 24, 40, .04);
+}
+
+.name-card label { display: block; font-weight: 600; margin-bottom: 10px; }
+#name {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  line-height: 1.9;
+  border: 1.5px solid #d8dbe4;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+#name:focus { border-color: var(--saffron); box-shadow: 0 0 0 3px rgba(255, 153, 51, .18); }
+.hint { display: block; margin-top: 8px; color: var(--muted); font-size: .82rem; }
+.error { color: #d92d20; font-size: .88rem; margin: 8px 0 0; }
+
+.questions { list-style: none; counter-reset: q; margin: 24px 0; padding: 0; }
+.questions .card { position: relative; padding-left: 58px; }
+.questions .card::before {
+  counter-increment: q;
+  content: counter(q);
+  position: absolute; left: 18px; top: 20px;
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--saffron); color: #fff;
+  font-size: .8rem; font-weight: 600; line-height: 1;
+}
+.q { font-weight: 600; margin: 0 0 14px; }
+.questions label {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px;
+  border: 1.5px solid #eceef4;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.questions label:hover { background: #fafbff; border-color: #dfe3ee; }
+.questions input[type="radio"] { accent-color: var(--green); width: 17px; height: 17px; flex: none; }
+.questions input[type="radio"]:checked + span { font-weight: 600; color: var(--green); }
+
+.btn {
+  font: inherit; font-weight: 600;
+  padding: 13px 28px;
+  border-radius: 999px; border: none;
+  cursor: pointer;
+  transition: transform .12s, box-shadow .12s;
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .6; cursor: default; }
+.btn.primary {
+  width: 100%;
+  background: linear-gradient(90deg, var(--saffron), #ff7a18);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(255, 122, 24, .32);
+}
+.btn.ghost { background: #fff; color: var(--ink); border: 1.5px solid #d8dbe4; }
+
+/* ---------- Certificate ---------- */
+.done {
+  text-align: center;
+  font-family: var(--display-font);
+  color: var(--green);
+  line-height: 1.6;
+  margin: 8px 0 22px;
+}
+
+.cert-stage { width: 100%; overflow: hidden; display: flex; justify-content: center; }
+
+.certificate {
+  width: 1000px; height: 700px; flex: none;
+  transform-origin: top center;
+  background: #fffdf8;
+  padding: 16px;
+  box-shadow: 0 10px 40px rgba(20, 24, 40, .16);
+}
+.cert-border { height: 100%; border: 3px solid var(--saffron); padding: 6px; }
+.cert-inner {
+  height: 100%;
+  border: 1.5px solid var(--green);
+  padding: 34px 60px 30px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 153, 51, .10), transparent 55%), #fffdf8;
+}
+.cert-flag {
+  width: 88px; height: 18px; border-radius: 3px;
+  background: linear-gradient(180deg, var(--saffron) 0 33.33%, #fff 33.33% 66.66%, var(--green) 66.66%);
+  border: 1px solid #e3e5ea;
+  margin-bottom: 12px;
+}
+
+/* No letter-spacing or text-transform below: both mangle Devanagari
+   conjuncts and detach matras from their base characters.
+   Single-line elements are pinned with nowrap because the PNG export
+   re-measures text and would otherwise wrap them differently. */
+.cert-org {
+  font-size: 15px; color: var(--muted);
+  margin: 0 0 6px; line-height: 1.6;
+  white-space: nowrap;
+}
+.cert-title {
+  font-family: var(--display-font);
+  font-size: 44px; line-height: 1.5;
+  margin: 0; color: var(--navy);
+  white-space: nowrap;
+}
+.cert-sub { color: var(--muted); margin: 6px 0 0; font-size: 16px; white-space: nowrap; }
+.cert-name {
+  font-family: var(--display-font);
+  font-size: 52px;              /* shrunk by JS if the name is long */
+  line-height: 1.6;             /* room for matras above and below */
+  color: #b45309;
+  margin: 4px 0 0;
+  padding: 4px 24px 14px;
+  border-bottom: 2px dotted #e0c9a6;
+  max-width: 860px;
+  white-space: nowrap;          /* never split a Devanagari cluster */
+}
+.cert-body {
+  max-width: 780px;
+  color: #3b4252;
+  font-size: 18px;
+  line-height: 2;
+  margin: 34px 0 0;
+}
+.cert-footer {
+  margin-top: auto; width: 100%;
+  display: flex; align-items: flex-end; justify-content: space-between;
+}
+.sig { width: 240px; display: flex; flex-direction: column; align-items: center; }
+.sig-line { width: 100%; height: 1.5px; background: #b9bec9; margin-bottom: 6px; }
+.sig-label { font-size: 13px; color: var(--muted); line-height: 1.6; white-space: nowrap; }
+.sig-value { font-size: 17px; font-weight: 600; line-height: 1.6; white-space: nowrap; }
+.cert-seal {
+  width: 84px; height: 84px; border-radius: 50%;
+  border: 2px solid var(--saffron);
+  display: grid; place-items: center;
+  color: var(--saffron); font-size: 30px;
+  background: rgba(255, 153, 51, .07);
+}
+
+.actions { display: flex; gap: 12px; justify-content: center; margin: 28px 0 10px; flex-wrap: wrap; }
+.actions .btn.primary { width: auto; }
+.tip { text-align: center; color: var(--muted); font-size: .85rem; }

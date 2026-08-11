@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>स्वातंत्र्य दिन प्रश्नमंजुषा 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="tricolor-bar"></div>
+
+  <main class="wrap">
+    <section id="quiz-view">
+      <header class="hero">
+        <h1 id="t-title"></h1>
+        <p id="t-subtitle"></p>
+      </header>
+
+      <form id="quiz-form" novalidate>
+        <div class="card name-card">
+          <label for="name" id="t-name-label"></label>
+          <input type="text" id="name" name="name" maxlength="60"
+                 autocomplete="name" lang="mr" required />
+          <small class="hint" id="t-name-hint"></small>
+          <p class="error" id="name-error" hidden></p>
+        </div>
+
+        <ol class="questions" id="questions"></ol>
+
+        <button type="submit" class="btn primary" id="t-submit"></button>
+      </form>
+    </section>
+
+    <section id="cert-view" hidden>
+      <h2 class="done" id="t-thanks"></h2>
+
+      <div class="cert-stage">
+        <div class="certificate" id="certificate">
+          <div class="cert-border">
+            <div class="cert-inner">
+              <div class="cert-flag"></div>
+              <p class="cert-org" id="c-org"></p>
+              <h1 class="cert-title" id="c-title"></h1>
+              <p class="cert-sub" id="c-sub"></p>
+              <p class="cert-name" id="cert-name"></p>
+              <p class="cert-body" id="c-body"></p>
+              <div class="cert-footer">
+                <div class="sig">
+                  <span class="sig-line"></span>
+                  <span class="sig-label" id="c-date-label"></span>
+                  <span class="sig-value" id="cert-date"></span>
+                </div>
+                <div class="cert-seal"><span>&#9733;</span></div>
+                <div class="sig">
+                  <span class="sig-line"></span>
+                  <span class="sig-label" id="c-org-label"></span>
+                  <span class="sig-value" id="c-org-name"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="download-btn"></button>
+        <button class="btn ghost" id="retake-btn"></button>
+      </div>
+      <p class="tip" id="t-tip"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+  <script src="content.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
